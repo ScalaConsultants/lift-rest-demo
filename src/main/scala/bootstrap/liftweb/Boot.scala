@@ -11,6 +11,10 @@ import Loc._
 import net.liftmodules.JQueryModule
 import net.liftweb.http.js.jquery._
 
+import com.mongodb.{Mongo, MongoOptions, ServerAddress}
+import net.liftweb.mongodb.{DefaultMongoIdentifier, MongoDB}
+import code.model.User
+
 
 /**
  * A class that's instantiated early and run.  It allows the application
@@ -54,5 +58,15 @@ class Boot {
     JQueryModule.InitParam.JQuery=JQueryModule.JQuery191
     JQueryModule.init()
 
+    //connect to MongoDB
+    val srvr = new ServerAddress("127.0.0.1", 27017)
+    val mo = new MongoOptions
+    mo.socketTimeout = 10
+    MongoDB.defineDb(DefaultMongoIdentifier, new Mongo(srvr, mo), "lift-test")
+    
+    //create demo user
+    val u = User.createRecord
+      //.name("user1").cnt(2014)
+      .save
   }
 }
