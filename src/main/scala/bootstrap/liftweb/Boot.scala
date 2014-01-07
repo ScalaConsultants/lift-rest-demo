@@ -15,6 +15,8 @@ import com.mongodb.{Mongo, MongoOptions, ServerAddress}
 import net.liftweb.mongodb.{DefaultMongoIdentifier, MongoDB}
 import code.model.User
 
+import code.api.UserApi
+
 
 /**
  * A class that's instantiated early and run.  It allows the application
@@ -49,6 +51,9 @@ class Boot {
     // Force the request to be UTF-8
     LiftRules.early.append(_.setCharacterEncoding("UTF-8"))
 
+    //our custom rule
+    LiftRules.dispatch.append(UserApi.dispatch)
+
     // Use HTML5 for rendering
     LiftRules.htmlProperties.default.set((r: Req) =>
       new Html5Properties(r.userAgent))
@@ -66,7 +71,7 @@ class Boot {
     
     //create demo user
     val u = User.createRecord
-      //.name("user1").cnt(2014)
+      .name("demo_user").yob(2014)
       .save
   }
 }
