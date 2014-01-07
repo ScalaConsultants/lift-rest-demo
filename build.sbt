@@ -26,6 +26,11 @@ libraryDependencies ++= {
     "ch.qos.logback" % "logback-classic" % "1.0.6",
     "net.liftweb" %% "lift-mongodb" % "2.5",
     "net.liftweb" %% "lift-mongodb-record" % "2.5",
+    "com.foursquare" %% "rogue-field" % "2.2.0",
+    "com.foursquare" %% "rogue-core" % "2.2.0",
+    "com.foursquare" %% "rogue-lift" % "2.2.0",
+    "com.foursquare" %% "rogue-index" % "2.2.0",
+    "net.liftweb" %% "lift-json" % "2.2",
     "org.specs2" %% "specs2" % "1.14" % "test"
   )
 }

@@ -14,6 +14,8 @@ import net.liftweb.http.js.jquery._
 import com.mongodb.{Mongo, MongoOptions, ServerAddress}
 import net.liftweb.mongodb.{DefaultMongoIdentifier, MongoDB}
 import code.model.User
+import code.model.Gender
+
 
 import code.api.UserApi
 
@@ -70,8 +72,8 @@ class Boot {
     MongoDB.defineDb(DefaultMongoIdentifier, new Mongo(srvr, mo), "lift-test")
     
     //create demo user
-    val u = User.createRecord
-      .name("demo_user").yob(2014)
-      .save
+    val u = User.createRecord.
+      name("demo").surname("user").yob(2014).gender(Gender.Unknown).
+      save
   }
 }
