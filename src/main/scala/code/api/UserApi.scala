@@ -1,23 +1,36 @@
 package code.api
 
+//see https://www.assembla.com/wiki/show/liftweb/Box
 import net.liftweb.common.{Box, Full, Empty, Failure}
-import net.liftweb.http.{ LiftRules, Req, GetRequest }
-import net.liftweb.http.JsonResponse
+import net.liftweb.http.{ S, LiftRules, Req, GetRequest, PostRequest }
+import net.liftweb.http.{ LiftResponse, JsonResponse, BadResponse }
 import code.model.User
 import net.liftweb.json._
-import net.liftweb.json.JsonAST._
 import net.liftweb.json.JsonDSL._
-import net.liftweb.http.BadResponse
+import net.liftweb.common.Logger
 
-object UserApi {
+object UserApi extends Logger {
   def dispatch: LiftRules.DispatchPF = {
-    // Define our getters first
     case r @ Req("api" :: "user" :: id :: Nil, _, GetRequest) =>
+      debug("Requested user " + id)
       () => {
         User.find(id) match {
           case Full(user) => Full(JsonResponse(user.asJValue))
           case _ => Full(BadResponse())
         }
+      }
+    case r @ Req("api" :: "user" :: "find" :: Nil, _, PostRequest) =>
+      () => {
+        debug("Find user with params " + S.request.map(_.params))
+        
+        val response: Box[LiftResponse] = for {
+          jsonString <- S.param("q")
+          net.liftweb.json.JInt(yob) = parse(jsonString) \\ "yob"
+        } yield {
+          JsonResponse(User.sameAge(yob.toInt).map(_.asJValue))
+        }
+        
+        response
       }
   }
 }
