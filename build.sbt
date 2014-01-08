@@ -16,6 +16,8 @@ unmanagedResourceDirectories in Test <+= (baseDirectory) { _ / "src/main/webapp"
 
 scalacOptions ++= Seq("-deprecation", "-unchecked")
 
+EclipseKeys.withSource := true
+
 libraryDependencies ++= {
   val liftVersion = "2.6-M2"
   Seq(
